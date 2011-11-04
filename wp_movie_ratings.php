@@ -311,12 +311,15 @@ function wp_movie_ratings_get($count = null, $options = array()) {
 
     $link = $_SERVER["REQUEST_URI"];
 
+    # change '&' in link to a more compliant '&amp;'
+    $link = preg_replace("/&/", "&amp;", $link);
+
     # drop everything after '#' (including '#')
     if (strpos($link, "#")) $link = substr($link, 0, strpos($link, "#"));
 
     # clear link from my stuff
-    $link = preg_replace("/(&|\?)*sort=(title|rating|watched_on)&(ascending|descending)/", "", $link);
-    $link = preg_replace("/(&|\?)*movies_page=[0-9]*/", "", $link);
+    $link = preg_replace("/(&amp;|\?)*sort=(title|rating|watched_on)&(ascending|descending)/", "", $link);
+    $link = preg_replace("/(&amp;|\?)*movies_page=[0-9]*/", "", $link);
 
     # put ? or &amp; at the end of the link depending on the situation
     if (strpos($link, "?")) $link .= "&amp;";
